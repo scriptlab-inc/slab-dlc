@@ -131,6 +131,9 @@ function readsAsWords(line: string): boolean {
   if (literal.includes("${")) return false;
   // A command pattern on its own, which the packager rewrites per harness.
   if (/^"?bun \./.test(literal)) return false;
+  // The leftover file of an earlier version: aidlc-utility.ts alone names it
+  // among the shipped files (t-compose-approve-carries-on), so no catalogue does.
+  if (literal.includes(".aidlc-compose-pending")) return false;
   if (/^[A-Z][a-z]+:?$/.test(literal)) return true;
   // A heading set in capitals (LEARN MORE). One capital word alone is as
   // often an error code or a variable's name, so those are entered by hand.

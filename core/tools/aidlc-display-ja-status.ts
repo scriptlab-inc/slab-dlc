@@ -526,8 +526,6 @@ export const DISPLAY_JA_STATUS: Readonly<Record<string, string>> = {
   "(brought up from {0} on {1}; the record as it was is {2})": "({1} に {0} から上げました。元のままの記録は {2} です)",
   "A proposed plan change is waiting for the person's answer (approve, edit or reject)": "計画の変更の提案が、利用者の回答を待っています (承認、編集、却下のどれか)",
   "answer the proposed plan change in the chat that shows it": "提案が表示されているチャットで、計画の変更の提案に回答します",
-  "Left over from an earlier AI-DLC version and no longer read: aidlc/.aidlc-compose-pending (safe to delete)": "以前のバージョンの AI-DLC が残したもので、今は読まれません: aidlc/.aidlc-compose-pending (削除しても問題ありません)",
-  "delete aidlc/.aidlc-compose-pending": "aidlc/.aidlc-compose-pending を削除します",
   "Approval gate pending: {0} (~{1}); waiting for a human, not stuck. Run {2} --status to review the current gate.": "承認のゲートが保留中です: {0} (約 {1})。人の判断を待っていて、止まってはいません。現在のゲートを確かめるには、{2} --status を実行します。",
   "run `{0} --status` to review and resolve the pending approval": "`{0} --status` を実行し、保留中の承認を確かめて判断します",
   "under 1h old": "1 時間未満",
