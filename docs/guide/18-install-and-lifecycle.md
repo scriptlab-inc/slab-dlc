@@ -979,8 +979,8 @@ the value from the selected settings layer without changing other flags.
 `AIDLC_QUESTION_RETENTION_DAYS` is the matching environment override.
 
 `--display-language <en|ja>` chooses the language of the lines AI-DLC itself
-words for you. The default is `en`, the wording as shipped. With `ja` these
-are shown in Japanese:
+words for you. The default is `ja`: with nothing recorded, these are shown in
+Japanese:
 
 - the answers of the commands you type at a terminal: `aidlc doctor`,
   `aidlc config`, `aidlc update`, `aidlc use`, `aidlc rollback`,
@@ -996,13 +996,17 @@ line that has no Japanese wording yet is shown in English. Output that a
 script reads (`--json`, `--quiet`), a guard's refusal of an agent's action and
 the engine's instructions to the agent are never changed: the stage
 instructions match their English. The agent's own writing follows the language
-you talk to it in. Record it with `--global` to use it in every project on
-this machine:
+you talk to it in. To read English instead, record `en`; `--global` records it
+for every project on this machine:
 
 ```bash
-aidlc config flags --display-language ja --global --yes
-aidlc config flags --display-language en --global --yes   # back to English
+aidlc config flags --display-language en --global --yes
+aidlc config flags --display-language ja --global --yes   # back to Japanese
 ```
+
+`AIDLC_DISPLAY_LANGUAGE` is the matching environment override. `LC_ALL=C` or
+`LC_MESSAGES=C`, the way a script asks any program for untranslated messages,
+shows English too; the test suite runs under `LC_MESSAGES=C`.
 
 `bun scripts/display-language-catalogue.ts` lists the lines that have no
 wording in `core/tools/aidlc-display-ja.ts` yet.

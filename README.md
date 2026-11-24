@@ -65,17 +65,17 @@ checked, because trusting lets the folder's `.kiro` hooks run commands on your
 machine; otherwise choose **Cancel** and review the folder first (see
 [First run](docs/guide/harnesses/kiro.md#first-run)).
 
-AI-DLC's own lines are in English. To read them in Japanese, record the
-display language once for this machine:
+AI-DLC's own lines are shown in Japanese: the answers of `aidlc doctor`,
+`aidlc config` and the other commands you type, `/aidlc --status`, and the
+lines of a step the agent says to you as the engine wrote them. Commands,
+flags, stage names and the choices you answer with stay as they are. To read
+English instead, record the display language once for this machine:
 
 ```bash
-aidlc config flags --display-language ja --global --yes
+aidlc config flags --display-language en --global --yes
 ```
 
-That covers the answers of `aidlc doctor`, `aidlc config` and the other
-commands you type, `/aidlc --status`, and the lines of a step the agent says to
-you as the engine wrote them. Commands, flags, stage names and the choices you
-answer with stay as they are; `--display-language en` goes back. See
+`--display-language ja` goes back. See
 [Project Flags](docs/guide/18-install-and-lifecycle.md#project-flags).
 
 ### 3. Start a workflow
