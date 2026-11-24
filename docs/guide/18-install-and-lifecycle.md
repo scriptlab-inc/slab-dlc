@@ -952,8 +952,8 @@ more than one harness tree is present.
 ### Project Flags
 
 `aidlc config flags` records project answers for default scope, swarm mode,
-hook debug, sensor timeout, question retention, and explicit guard bypasses or
-ceremony kill switches:
+hook debug, sensor timeout, question retention, the display language, and
+explicit guard bypasses or ceremony kill switches:
 
 ```bash
 aidlc config flags --default-scope <installed-scope> \
@@ -977,6 +977,35 @@ and other queries never remove anything), and an expired question is refused if
 it is answered. Passing `unlimited` removes
 the value from the selected settings layer without changing other flags.
 `AIDLC_QUESTION_RETENTION_DAYS` is the matching environment override.
+
+`--display-language <en|ja>` chooses the language of the lines AI-DLC itself
+words for you. The default is `en`, the wording as shipped. With `ja` these
+are shown in Japanese:
+
+- the answers of the commands you type at a terminal: `aidlc doctor`,
+  `aidlc config`, `aidlc update`, `aidlc use`, `aidlc rollback`,
+  `aidlc uninstall`, `aidlc versions` and `aidlc help`;
+- `/aidlc --status`;
+- the lines of a step that the agent says to you as the engine wrote them:
+  what is happening, a change you need to hear about, and an error;
+- on Claude Code, the one line that says a check stood aside.
+
+Commands, flags, file names, setting names, stage names and the choices you
+answer a question with (`Approve`, `Request Changes`) stay as they are, and a
+line that has no Japanese wording yet is shown in English. Output that a
+script reads (`--json`, `--quiet`), a guard's refusal of an agent's action and
+the engine's instructions to the agent are never changed: the stage
+instructions match their English. The agent's own writing follows the language
+you talk to it in. Record it with `--global` to use it in every project on
+this machine:
+
+```bash
+aidlc config flags --display-language ja --global --yes
+aidlc config flags --display-language en --global --yes   # back to English
+```
+
+`bun scripts/display-language-catalogue.ts` lists the lines that have no
+wording in `core/tools/aidlc-display-ja.ts` yet.
 
 Default scope names are read from the installed scope files. The section does
 not branch on a built-in scope name, so scope renames and plugin scopes remain
