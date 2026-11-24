@@ -555,6 +555,7 @@ export {
 // runtime require() below avoids the circular import (aidlc-graph.ts
 // imports loadScopeMapping/loadStageGraph from this file). Type-only
 // imports are erased at runtime so they don't create the cycle.
+import { inDisplayLanguage } from "./aidlc-display-language.ts";
 import { claudeSettingsHookTargets, readRootIntegrations, withoutBom } from "./aidlc-distribution.ts";
 import type { subgraphForScope as SubgraphForScope } from "./aidlc-graph.ts";
 import type * as SwarmCheckpoints from "./aidlc-swarm-checkpoints.ts";
@@ -41258,7 +41259,7 @@ export function guardStandAsideSpeaks(gate: { policy: GuardPolicy }): boolean {
  */
 export function writeGuardStoodAside(line: string): void {
   process.stdout.write(
-    `${runtimeHarnessName() === "claude" ? JSON.stringify({ systemMessage: line }) : line}\n`,
+    `${runtimeHarnessName() === "claude" ? JSON.stringify({ systemMessage: inDisplayLanguage(line) }) : line}\n`,
   );
 }
 

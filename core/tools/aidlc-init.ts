@@ -43,6 +43,12 @@ import {
   warnVerdict,
 } from "./aidlc-color.ts";
 import {
+  DEFAULT_DISPLAY_LANGUAGE,
+  DISPLAY_LANGUAGES,
+  displayLanguageFromEnvironment,
+  isDisplayLanguage,
+} from "./aidlc-display-language.ts";
+import {
   AIDLC_HOOK_ENTRY_PREFIX,
   aidlcHookRegistrationHashes,
   aidlcHookRegistrations,
@@ -601,6 +607,7 @@ const CONFIG_VALUE_FLAGS = new Set([
   "--save-as",
   "--sensor-timeout-ms",
   "--question-retention-days",
+  "--display-language",
   "--swarm",
   "--hook-debug",
   "--bypass",
@@ -624,6 +631,7 @@ const CHOICE_VALUE_FLAGS = new Set([
   "--project-dir",
   "--sensor-timeout-ms",
   "--question-retention-days",
+  "--display-language",
   "--swarm",
 ]);
 
@@ -3636,6 +3644,7 @@ function validateChoiceArgs(
         "--project-dir",
         "--sensor-timeout-ms",
         "--question-retention-days",
+        "--display-language",
         "--swarm",
       ])
     : new Set([
@@ -3705,6 +3714,7 @@ function validateChoiceArgs(
         "--reset",
         "--sensor-timeout-ms",
         "--question-retention-days",
+        "--display-language",
         "--swarm",
       ]
     : ["--completions", "--mcp", "--plugins", "--reset"];
@@ -3723,6 +3733,7 @@ function choiceHelp(section: ChoiceSection): string {
         "  --hook-debug <on|off>",
         "  --sensor-timeout-ms <positive-integer>",
         "  --question-retention-days <days|unlimited>",
+        `  --display-language <${DISPLAY_LANGUAGES.join("|")}>`,
         "  --bypass <AIDLC_SKIP_*|AIDLC_DISABLE_*>",
         "  --clear-bypass <AIDLC_SKIP_*|AIDLC_DISABLE_*>",
         "",
@@ -3849,6 +3860,13 @@ function buildFlagsRecord(
       );
     }
     next.questionRetentionDays = parsed;
+  }
+  const displayLanguage = valueAfter(argv, "--display-language");
+  if (displayLanguage !== undefined) {
+    if (!isDisplayLanguage(displayLanguage)) {
+      throw new Error(`--display-language must be one of ${DISPLAY_LANGUAGES.join(", ")}`);
+    }
+    next.displayLanguage = displayLanguage;
   }
   const bypasses = new Set(next.bypasses ?? []);
   for (const name of valuesAfter(argv, "--bypass")) {
@@ -4068,6 +4086,14 @@ function showChoiceSection(
         ? effective.AIDLC_QUESTION_RETENTION_DAYS ?? "unlimited"
         : resolved.flags?.questionRetentionDays ?? "unlimited"
     } ${sourceLabel("AIDLC_QUESTION_RETENTION_DAYS")}\n`;
+    const displayLanguageInEnvironment = displayLanguageFromEnvironment();
+    output += `  Display language: ${
+      displayLanguageInEnvironment ?? resolved.flags?.displayLanguage ?? DEFAULT_DISPLAY_LANGUAGE
+    } ${
+      displayLanguageInEnvironment === null
+        ? dim(`[${settingsSource(resolved, "flags.displayLanguage")}]`, out)
+        : dim("[env]", out)
+    }\n`;
     for (const bypass of resolved.flags?.bypasses ?? []) {
       output += `  Bypass enabled: ${bypass} ${sourceLabel(bypass)}\n`;
     }
@@ -4179,6 +4205,10 @@ function choiceWizard(
       "Question retention days [positive integer/unlimited, Enter keep]:",
     )?.trim();
     if (retention) args.push("--question-retention-days", retention);
+    const displayLanguage = configPrompt(
+      `Display language [${DISPLAY_LANGUAGES.join("/")}, Enter keep]:`,
+    )?.trim();
+    if (displayLanguage) args.push("--display-language", displayLanguage);
     return {
       next: buildFlagsRecord(targetCurrentFlags, args, selected.root),
       plugins: readPluginSelection(selected.root),
@@ -4269,6 +4299,7 @@ function prepareChoiceSection(
         "--reset",
         "--sensor-timeout-ms",
         "--question-retention-days",
+        "--display-language",
         "--swarm",
       ]
     : ["--completions", "--mcp", "--plugins", "--reset"];
@@ -4375,7 +4406,7 @@ function prepareChoiceSection(
   } else {
     if (!configInputIsTty()) {
       const flags = section === "flags"
-        ? "--default-scope, --swarm, --hook-debug, --sensor-timeout-ms, --question-retention-days, --bypass, or --reset"
+        ? "--default-scope, --swarm, --hook-debug, --sensor-timeout-ms, --question-retention-days, --display-language, --bypass, or --reset"
         : "--plugins, --mcp, --completions, or --reset";
       emitResult(
         usage(
@@ -12053,6 +12084,7 @@ function handleSettingsOnlySection(
     "--reset",
     "--sensor-timeout-ms",
     "--question-retention-days",
+    "--display-language",
     "--swarm",
   ];
   const mutationFlags = section === "models" ? modelMutationFlags : flagMutationFlags;
@@ -12287,7 +12319,7 @@ type SettingLeaf = {
 };
 
 const FLAG_LEAVES: ReadonlyArray<{
-  key: "defaultScope" | "swarm" | "hookDebug" | "sensorTimeoutMs" | "questionRetentionDays";
+  key: "defaultScope" | "swarm" | "hookDebug" | "sensorTimeoutMs" | "questionRetentionDays" | "displayLanguage";
   label: string;
   flag: string;
 }> = [
@@ -12296,6 +12328,7 @@ const FLAG_LEAVES: ReadonlyArray<{
   { key: "hookDebug", label: "hook debug", flag: "--hook-debug" },
   { key: "sensorTimeoutMs", label: "sensor timeout (ms)", flag: "--sensor-timeout-ms" },
   { key: "questionRetentionDays", label: "question retention (days)", flag: "--question-retention-days" },
+  { key: "displayLanguage", label: "display language", flag: "--display-language" },
 ];
 
 // A committed value as printed: one line, with every control, format, and
@@ -12613,6 +12646,7 @@ const RIGHT_AWAY_FLAGS = new Map([
   ["flags.hookDebug", "hook debug"],
   ["flags.sensorTimeoutMs", "the sensor timeout"],
   ["flags.questionRetentionDays", "question retention"],
+  ["flags.displayLanguage", "the display language"],
 ]);
 
 // `nextSession` names a tool that reads the change only when a session starts.

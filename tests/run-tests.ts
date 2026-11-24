@@ -454,6 +454,12 @@ if (existsSync(projectSettings)) {
   }
 }
 
+// The suite's expectations are the English source lines. LC_MESSAGES=C asks
+// every tool a test starts for them, and reaches the tools of the tests that
+// drop the AIDLC_ variables first.
+process.env.LC_MESSAGES = "C";
+delete process.env.LC_ALL;
+
 let logDir = "";
 let cleanupLogDir = false;
 if (args.verbose) {

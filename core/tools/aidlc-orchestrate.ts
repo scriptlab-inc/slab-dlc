@@ -181,6 +181,7 @@ import {
   validateDirective,
   withAgentNotes,
 } from "./aidlc-directive.ts";
+import { claimEngineRunForPerson, stepSerializedForPerson } from "./aidlc-display-language.ts";
 import {
   docsRoot,
   intentDisplayLabel,
@@ -2172,7 +2173,8 @@ function prepareEmission(directive: Directive): PreparedEmission {
     );
     process.exit(1);
   }
-  const serialized = JSON.stringify(result.data);
+  const serialized = (isRouteCheckProbe() ? null : stepSerializedForPerson(result.data, directiveMaxBytes())) ??
+    JSON.stringify(result.data);
   const serializedBytes = Buffer.byteLength(serialized, "utf-8");
   // The limit is what a host shows of one command result. A route check's
   // print goes only to `unit start`'s pipe, and it skips the transport that
@@ -2421,7 +2423,7 @@ function attachLegacyKiroPlanApprovalChoices(
       `legacy Plan Approval choices produced an invalid directive: ${validated.errors.join("; ")}`,
     );
   }
-  const serialized = JSON.stringify(validated.data);
+  const serialized = stepSerializedForPerson(validated.data, directiveMaxBytes()) ?? JSON.stringify(validated.data);
   if (Buffer.byteLength(serialized, "utf-8") > directiveMaxBytes()) {
     throw new Error(
       "legacy Plan Approval choices exceed the directive transport limit",
@@ -24547,6 +24549,7 @@ function nextArgsWithRequestFile(
 // --- CLI entry point ---
 
 export function main(argv: string[]): void {
+  claimEngineRunForPerson();
   // A turn Claude Code started itself is settled before this command reads a turn.
   settleClaudeTurnsFirst(resolveProjectDir(projectDirFlag(argv)));
   const rawArgs = argv;

@@ -30,6 +30,11 @@ import {
   heading,
   tipLabel,
 } from "./aidlc-color.ts";
+import {
+  displayLanguageShowsThisProcess,
+  inDisplayLanguage,
+  showPersonCommandInDisplayLanguage,
+} from "./aidlc-display-language.ts";
 import { AIDLC_VERSION } from "./aidlc-version.ts";
 import {
   aidlcInvocation,
@@ -412,7 +417,7 @@ export const ROUTES: readonly Route[] = [
       "config runtime [--show [--json]|--check|--record-paths|--reset] [--dry-run] [--yes] [--download [--release-base-url <url>] [--ca-bundle <path>]]",
       "config providers [--show [--json]|--check|--reset|--provider <current|amazon-bedrock|other>] [--region <region>] [--profile <profile>] [--opencode-default <yes|no>] [--acknowledge] [--mark-done <id>] [--dry-run] [--yes] [--download [--release-base-url <url>] [--ca-bundle <path>]]",
       "config trust [--show [--json]|--check|--acknowledge|--kiro-workflows <on|off>|--kiro-cli-workflows <on|off>|--kiro-terminal powershell|--reset] [--dry-run] [--yes] [--download [--release-base-url <url>] [--ca-bundle <path>]]",
-      "config flags [--show [--json]|--check|--reset] [--default-scope <name>] [--swarm <on|off>] [--hook-debug <on|off>] [--sensor-timeout-ms <n>] [--question-retention-days <days|unlimited>] [--bypass <name>] [--clear-bypass <name>] [--local|--project|--global] [--dry-run] [--yes] [--download [--release-base-url <url>] [--ca-bundle <path>]]",
+      "config flags [--show [--json]|--check|--reset] [--default-scope <name>] [--swarm <on|off>] [--hook-debug <on|off>] [--sensor-timeout-ms <n>] [--question-retention-days <days|unlimited>] [--display-language <en|ja>] [--bypass <name>] [--clear-bypass <name>] [--local|--project|--global] [--dry-run] [--yes] [--download [--release-base-url <url>] [--ca-bundle <path>]]",
       "config project [--show [--json]|--check|--reset] [--plugins <names|all>] [--mcp <defaults|none>] [--completions <shell|none>] [--dry-run] [--yes] [--download [--release-base-url <url>] [--ca-bundle <path>]]",
       "config --pin <version> [--from <dir>] [--release-base-url <url>] [--ca-bundle <path>] [--offline]",
       "config --statusline <on|off> [--harness <claude|codex>] [--dry-run] [--json] [--project-dir <path>]",
@@ -1240,7 +1245,8 @@ export type Action =
 
 function text(fd: number, value: string | Uint8Array): void {
   if (typeof value === "string") {
-    writeSync(fd, value);
+    // writeSync goes around the streams the display language is shown on.
+    writeSync(fd, displayLanguageShowsThisProcess() ? inDisplayLanguage(value) : value);
     return;
   }
   writeSync(fd, value);
@@ -4385,6 +4391,7 @@ export async function main(rawArgv: string[]): Promise<void> {
     return;
   }
   configureColor(argv);
+  showPersonCommandInDisplayLanguage(argv);
   const projectDirOption = projectDirFlag(argv.slice(0, ourFlagLimit(argv)));
   // A word that may be a plugin command: the words after it are its script's,
   // so a mistake of ours found only there is said only if it names none.
