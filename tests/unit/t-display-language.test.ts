@@ -55,7 +55,12 @@ function projectRecording(language: string | null): { dir: string; env: NodeJS.P
       `${JSON.stringify({ schemaVersion: 1, flags: { schemaVersion: 1, displayLanguage: language } })}\n`,
     );
   }
-  return { dir: project, env: { ...process.env, AIDLC_INSTALL_ROOT: root, NO_COLOR: "1" } };
+  const env: NodeJS.ProcessEnv = { ...process.env, AIDLC_INSTALL_ROOT: root, NO_COLOR: "1" };
+  // The runner asks for English; these runs read the language as a person's machine would.
+  delete env.AIDLC_DISPLAY_LANGUAGE;
+  delete env.LC_MESSAGES;
+  delete env.LC_ALL;
+  return { dir: project, env };
 }
 
 function aidlc(args: string[], at: { dir: string; env: NodeJS.ProcessEnv }): { stdout: string; stderr: string } {
@@ -124,7 +129,7 @@ describe("a line shown in the display language", () => {
   });
 
   test("stays English when English is the display language", () => {
-    // Given English, the shipped default
+    // Given English as the display language
     _resetDisplayLanguageForTests("en");
     // When a line the Japanese catalogue knows is shown
     const shown = inDisplayLanguage("fix: rerun with --help for valid usage\n");
@@ -203,7 +208,7 @@ describe("a step the engine hands the agent", () => {
   });
 
   test("is sent as written when English is the display language", () => {
-    // Given English, the shipped default
+    // Given English as the display language
     _resetDisplayLanguageForTests("en");
     claimEngineRunForPerson();
     // When the step is serialized for the person
@@ -227,20 +232,50 @@ describe("a command the person types", () => {
     expect(stdout).toContain("config flags --help");
   });
 
-  test("answers in English where no language is recorded", () => {
+  test("answers in Japanese where no language is recorded", () => {
     // Given a project with no settings
     const project = projectRecording(null);
     // When the same command is refused
     const { stdout } = aidlc(refused, project);
-    // Then the answer is the shipped English
+    // Then the answer is Japanese, the default
+    expect(stdout).toContain("エラー:");
+    expect(stdout).toContain("config flags --help");
+  });
+
+  test("answers in English in a project that recorded en", () => {
+    // Given a project whose settings record English
+    const project = projectRecording("en");
+    // When the same command is refused
+    const { stdout } = aidlc(refused, project);
+    // Then the answer is the English the source writes
+    expect(stdout).toContain("error:");
+    expect(stdout).not.toContain("エラー:");
+  });
+
+  test("answers in the language the environment chooses for the run, over the recorded one", () => {
+    // Given a project whose settings record Japanese
+    const project = projectRecording("ja");
+    // When the run's environment asks for English
+    const { stdout } = aidlc(refused, { dir: project.dir, env: { ...project.env, AIDLC_DISPLAY_LANGUAGE: "en" } });
+    // Then the answer is English
+    expect(stdout).toContain("error:");
+    expect(stdout).not.toContain("エラー:");
+  });
+
+  test("answers in English where the environment asks programs for untranslated messages", () => {
+    // Given a project with no settings
+    const project = projectRecording(null);
+    // When the run's environment carries LC_MESSAGES=C, as a script's does
+    const { stdout } = aidlc(refused, { dir: project.dir, env: { ...project.env, LC_MESSAGES: "C" } });
+    // Then the answer is the English the source writes
     expect(stdout).toContain("error:");
     expect(stdout).not.toContain("エラー:");
   });
 
   test("gives a script the same --json answer whatever the language", () => {
-    // Given one project recording Japanese and one recording nothing
+    // Given one project recording Japanese and one recording English
     const japanese = aidlc([...refused, "--json"], projectRecording("ja"));
-    const english = aidlc([...refused, "--json"], projectRecording(null));
+    const english = aidlc([...refused, "--json"], projectRecording("en"));
     // When both answers are read as a script would
     const message = (out: string) => (JSON.parse(out) as { message: string }).message.replace(/\/\S+/g, "");
     // Then the words are the same
@@ -254,6 +289,6 @@ describe("a command the person types", () => {
     // When a language AI-DLC does not ship is recorded
     const { stdout } = aidlc(["config", "flags", "--display-language", "xx", "--global", "--yes"], project);
     // Then the refusal names the languages it has
-    expect(stdout).toContain("--display-language must be one of en, ja");
+    expect(stdout).toContain("--display-language には en, ja のどれかを指定してください");
   });
 });
