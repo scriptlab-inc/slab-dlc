@@ -1,5 +1,5 @@
 // The language AI-DLC's own lines are shown to the person in. English is the
-// shipped wording and stays the source: a catalogue maps each English line to
+// wording the source is written in: a catalogue maps each English line to
 // its wording in the chosen language, and a line with no entry is shown as it
 // was written. Only lines a person reads at a terminal pass through here.
 // Output a program or the agent reads (--json, --quiet, a directive, a hook's
@@ -48,18 +48,41 @@ export function isDisplayLanguage(value: unknown): value is DisplayLanguage {
   return (DISPLAY_LANGUAGES as readonly unknown[]).includes(value);
 }
 
+// The language shown where nothing records one.
+export const DEFAULT_DISPLAY_LANGUAGE: DisplayLanguage = "ja";
+
+// Chooses the language for one run, over what the settings record.
+export const DISPLAY_LANGUAGE_ENV = "AIDLC_DISPLAY_LANGUAGE";
+
+// `LC_ALL=C` or `LC_MESSAGES=C` is how a script asks any program for its
+// untranslated messages. The test suite runs under LC_MESSAGES=C because its
+// expectations are the English source lines, and many tests drop every AIDLC_
+// variable before they start a tool, so a variable of our own would not arrive.
+function environmentAsksForSourceWording(): boolean {
+  const messages = process.env.LC_ALL || process.env.LC_MESSAGES;
+  return messages === "C" || messages === "POSIX";
+}
+
+export function displayLanguageFromEnvironment(): DisplayLanguage | null {
+  const chosen = process.env[DISPLAY_LANGUAGE_ENV];
+  if (isDisplayLanguage(chosen)) return chosen;
+  return environmentAsksForSourceWording() ? "en" : null;
+}
+
 // A settings file that cannot be read never costs the person their output:
-// the lines are shown in English and the command that owns settings reports it.
+// the lines are shown in the default language and the command that owns
+// settings reports it.
 export function displayLanguage(): DisplayLanguage {
   if (language !== null) return language;
-  language = "en";
+  language = displayLanguageFromEnvironment() ?? DEFAULT_DISPLAY_LANGUAGE;
+  if (displayLanguageFromEnvironment() !== null) return language;
   try {
     const { resolveAidlcSettings } = require("./aidlc-settings.ts") as typeof import("./aidlc-settings.ts");
     const projectDir = process.env.AIDLC_PROJECT_DIR || process.env.AIDLC_RUNTIME_PROJECT_DIR || process.cwd();
     const recorded = resolveAidlcSettings(projectDir).flags?.displayLanguage;
     if (isDisplayLanguage(recorded)) language = recorded;
   } catch {
-    language = "en";
+    language = DEFAULT_DISPLAY_LANGUAGE;
   }
   return language;
 }

@@ -42,7 +42,12 @@ import {
   tipLabel,
   warnVerdict,
 } from "./aidlc-color.ts";
-import { DISPLAY_LANGUAGES, isDisplayLanguage } from "./aidlc-display-language.ts";
+import {
+  DEFAULT_DISPLAY_LANGUAGE,
+  DISPLAY_LANGUAGES,
+  displayLanguageFromEnvironment,
+  isDisplayLanguage,
+} from "./aidlc-display-language.ts";
 import {
   AIDLC_HOOK_ENTRY_PREFIX,
   aidlcHookRegistrationHashes,
@@ -4081,8 +4086,13 @@ function showChoiceSection(
         ? effective.AIDLC_QUESTION_RETENTION_DAYS ?? "unlimited"
         : resolved.flags?.questionRetentionDays ?? "unlimited"
     } ${sourceLabel("AIDLC_QUESTION_RETENTION_DAYS")}\n`;
-    output += `  Display language: ${resolved.flags?.displayLanguage ?? "en"} ${
-      dim(`[${settingsSource(resolved, "flags.displayLanguage")}]`, out)
+    const displayLanguageInEnvironment = displayLanguageFromEnvironment();
+    output += `  Display language: ${
+      displayLanguageInEnvironment ?? resolved.flags?.displayLanguage ?? DEFAULT_DISPLAY_LANGUAGE
+    } ${
+      displayLanguageInEnvironment === null
+        ? dim(`[${settingsSource(resolved, "flags.displayLanguage")}]`, out)
+        : dim("[env]", out)
     }\n`;
     for (const bypass of resolved.flags?.bypasses ?? []) {
       output += `  Bypass enabled: ${bypass} ${sourceLabel(bypass)}\n`;

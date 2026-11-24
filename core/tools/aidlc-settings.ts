@@ -99,7 +99,7 @@ export type ProjectFlagsRecord = {
   sensorTimeoutMs?: number;
   questionRetentionDays?: number;
   // The language of the lines AI-DLC prints for the person at a terminal
-  // (aidlc-display-language.ts). Unset is English, the wording as shipped.
+  // (aidlc-display-language.ts). Unset is its DEFAULT_DISPLAY_LANGUAGE.
   displayLanguage?: DisplayLanguage;
   bypasses?: RecordableProjectBypass[];
   // AI-DLC's status line (Claude Code and Codex, #1407), kept only in this
