@@ -7,6 +7,7 @@ import {
   fixLabel,
   heading,
 } from "./aidlc-color.ts";
+import { adoptDisplayLanguage } from "./aidlc-display-language.ts";
 import { aidlcInvocation } from "./aidlc-runtime-paths.ts";
 
 export const ROUTE_NAMESPACE_DECLARATIONS = {
@@ -685,6 +686,7 @@ export type GlobalOptions = {
 
 export function globalOptions(argv: readonly string[]): GlobalOptions {
   configureColor(argv);
+  if (!argv.includes("--json") && !argv.includes("--quiet")) adoptDisplayLanguage();
   return {
     mode: argv.includes("--json") ? "json" : argv.includes("--quiet") ? "quiet" : "human",
     color: colorEnabled(process.stdout),

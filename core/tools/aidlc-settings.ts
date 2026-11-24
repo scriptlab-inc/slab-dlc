@@ -4,6 +4,7 @@ import {
   type Stats,
 } from "node:fs";
 import { isAbsolute, join } from "node:path";
+import { DISPLAY_LANGUAGES, type DisplayLanguage, isDisplayLanguage } from "./aidlc-display-language.ts";
 import { installRoot } from "./aidlc-install-paths.ts";
 import type {
   ModelAgentPolicy,
@@ -97,6 +98,9 @@ export type ProjectFlagsRecord = {
   hookDebug?: boolean;
   sensorTimeoutMs?: number;
   questionRetentionDays?: number;
+  // The language of the lines AI-DLC prints for the person at a terminal
+  // (aidlc-display-language.ts). Unset is English, the wording as shipped.
+  displayLanguage?: DisplayLanguage;
   bypasses?: RecordableProjectBypass[];
   // AI-DLC's status line (Claude Code and Codex, #1407), kept only in this
   // clone's aidlc.settings.local.json: the person chose "on" or "off", or a
@@ -155,6 +159,7 @@ const PROJECT_FLAG_KEYS = new Set([
   "hookDebug",
   "sensorTimeoutMs",
   "questionRetentionDays",
+  "displayLanguage",
   "bypasses",
   "statusline",
   "statuslineReplaced",
@@ -246,6 +251,12 @@ export function normalizeProjectFlagsRecord(
       throw new Error(`${where}.questionRetentionDays must be a positive integer`);
     }
     out.questionRetentionDays = value.questionRetentionDays;
+  }
+  if (value.displayLanguage !== undefined) {
+    if (!isDisplayLanguage(value.displayLanguage)) {
+      throw new Error(`${where}.displayLanguage must be one of ${DISPLAY_LANGUAGES.join(", ")}`);
+    }
+    out.displayLanguage = value.displayLanguage;
   }
   if (value.bypasses !== undefined) {
     if (
@@ -850,6 +861,7 @@ export const AIDLC_SETTINGS_SCHEMA = {
         hookDebug: { type: "boolean" },
         sensorTimeoutMs: { type: "integer", minimum: 1 },
         questionRetentionDays: { type: "integer", minimum: 1 },
+        displayLanguage: { enum: [...DISPLAY_LANGUAGES] },
         bypasses: {
           type: "array",
           uniqueItems: true,
