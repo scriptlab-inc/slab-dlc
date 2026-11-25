@@ -8,6 +8,7 @@ import {
   CORE_COMMAND_WORDS,
   dispatcherWorkspaceUtilityArgv,
   type HookGroupMember,
+  displayLanguageTools,
   hookGroupMembers,
   HUMAN_PRESENCE_NO_SWITCH,
   LAUNCHER_GLOBAL_FLAGS,
@@ -30,11 +31,6 @@ import {
   heading,
   tipLabel,
 } from "./aidlc-color.ts";
-import {
-  displayLanguageShowsThisProcess,
-  inDisplayLanguage,
-  showPersonCommandInDisplayLanguage,
-} from "./aidlc-display-language.ts";
 import { AIDLC_VERSION } from "./aidlc-version.ts";
 import {
   aidlcInvocation,
@@ -1246,7 +1242,8 @@ export type Action =
 function text(fd: number, value: string | Uint8Array): void {
   if (typeof value === "string") {
     // writeSync goes around the streams the display language is shown on.
-    writeSync(fd, displayLanguageShowsThisProcess() ? inDisplayLanguage(value) : value);
+    const display = displayLanguageTools();
+    writeSync(fd, display?.displayLanguageShowsThisProcess() ? display.inDisplayLanguage(value) : value);
     return;
   }
   writeSync(fd, value);
@@ -4391,7 +4388,7 @@ export async function main(rawArgv: string[]): Promise<void> {
     return;
   }
   configureColor(argv);
-  showPersonCommandInDisplayLanguage(argv);
+  displayLanguageTools()?.showPersonCommandInDisplayLanguage(argv);
   const projectDirOption = projectDirFlag(argv.slice(0, ourFlagLimit(argv)));
   // A word that may be a plugin command: the words after it are its script's,
   // so a mistake of ours found only there is said only if it names none.

@@ -25,6 +25,7 @@ import {
   EXIT,
   type CommandResult,
   emitResult as emitCommandResult,
+  displayLanguageTools,
   failure,
   globalOptions,
   readTerminalLine,
@@ -42,12 +43,6 @@ import {
   tipLabel,
   warnVerdict,
 } from "./aidlc-color.ts";
-import {
-  DEFAULT_DISPLAY_LANGUAGE,
-  DISPLAY_LANGUAGES,
-  displayLanguageFromEnvironment,
-  isDisplayLanguage,
-} from "./aidlc-display-language.ts";
 import {
   AIDLC_HOOK_ENTRY_PREFIX,
   aidlcHookRegistrationHashes,
@@ -405,6 +400,9 @@ import { gitCommonDirOf } from "./aidlc-git.ts";
 import { committedRecordIgnoreConflicts, untrackedSetupLine } from "./aidlc-gitignore.ts";
 import { deepFolder } from "./aidlc-folder-depth.ts";
 import {
+  DEFAULT_DISPLAY_LANGUAGE,
+  DISPLAY_LANGUAGES,
+  isDisplayLanguage,
   LOCAL_SETTINGS_FILE,
   invalidateSettingsCache,
   modelPolicyForHarness,
@@ -4086,7 +4084,7 @@ function showChoiceSection(
         ? effective.AIDLC_QUESTION_RETENTION_DAYS ?? "unlimited"
         : resolved.flags?.questionRetentionDays ?? "unlimited"
     } ${sourceLabel("AIDLC_QUESTION_RETENTION_DAYS")}\n`;
-    const displayLanguageInEnvironment = displayLanguageFromEnvironment();
+    const displayLanguageInEnvironment = displayLanguageTools()?.displayLanguageFromEnvironment() ?? null;
     output += `  Display language: ${
       displayLanguageInEnvironment ?? resolved.flags?.displayLanguage ?? DEFAULT_DISPLAY_LANGUAGE
     } ${

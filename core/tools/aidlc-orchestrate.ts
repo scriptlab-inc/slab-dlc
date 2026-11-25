@@ -102,7 +102,7 @@ import {
 } from "node:fs";
 import { basename, dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { pinnedVersionNote, VERSION_ID } from "./aidlc-channel.ts";
-import { CONFIG_SECTIONS } from "./aidlc-command.ts";
+import { CONFIG_SECTIONS, displayLanguageTools } from "./aidlc-command.ts";
 import { isGitRepo } from "./aidlc-git.ts";
 import { AIDLC_VERSION } from "./aidlc-version.ts";
 import { fileURLToPath } from "node:url";
@@ -181,7 +181,6 @@ import {
   validateDirective,
   withAgentNotes,
 } from "./aidlc-directive.ts";
-import { claimEngineRunForPerson, stepSerializedForPerson } from "./aidlc-display-language.ts";
 import {
   docsRoot,
   intentDisplayLabel,
@@ -2173,7 +2172,8 @@ function prepareEmission(directive: Directive): PreparedEmission {
     );
     process.exit(1);
   }
-  const serialized = (isRouteCheckProbe() ? null : stepSerializedForPerson(result.data, directiveMaxBytes())) ??
+  const serialized =
+    (isRouteCheckProbe() ? null : displayLanguageTools()?.stepSerializedForPerson(result.data, directiveMaxBytes())) ??
     JSON.stringify(result.data);
   const serializedBytes = Buffer.byteLength(serialized, "utf-8");
   // The limit is what a host shows of one command result. A route check's
@@ -2423,7 +2423,8 @@ function attachLegacyKiroPlanApprovalChoices(
       `legacy Plan Approval choices produced an invalid directive: ${validated.errors.join("; ")}`,
     );
   }
-  const serialized = stepSerializedForPerson(validated.data, directiveMaxBytes()) ?? JSON.stringify(validated.data);
+  const serialized = displayLanguageTools()?.stepSerializedForPerson(validated.data, directiveMaxBytes()) ??
+    JSON.stringify(validated.data);
   if (Buffer.byteLength(serialized, "utf-8") > directiveMaxBytes()) {
     throw new Error(
       "legacy Plan Approval choices exceed the directive transport limit",
@@ -24549,7 +24550,7 @@ function nextArgsWithRequestFile(
 // --- CLI entry point ---
 
 export function main(argv: string[]): void {
-  claimEngineRunForPerson();
+  displayLanguageTools()?.claimEngineRunForPerson();
   // A turn Claude Code started itself is settled before this command reads a turn.
   settleClaudeTurnsFirst(resolveProjectDir(projectDirFlag(argv)));
   const rawArgs = argv;

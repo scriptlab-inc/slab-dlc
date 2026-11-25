@@ -54,7 +54,7 @@ import {
   success,
   warnVerdict,
 } from "./aidlc-color.ts";
-import { adoptDisplayLanguage } from "./aidlc-display-language.ts";
+import { displayLanguageTools } from "./aidlc-command.ts";
 import {
   HARNESS_PRODUCT_NAMES,
   isModelHarness,
@@ -642,7 +642,7 @@ function writeExport(
 
 export async function main(argv: string[]): Promise<void> {
   configureColor(argv);
-  if (!argv.includes("--json") && !argv.includes("--quiet")) adoptDisplayLanguage();
+  if (!argv.includes("--json") && !argv.includes("--quiet")) displayLanguageTools()?.adoptDisplayLanguage();
   const { flags } = parseArgs(argv);
   const projectDir = resolveProjectDir(flags["project-dir"]);
   const exporting = "export" in flags;

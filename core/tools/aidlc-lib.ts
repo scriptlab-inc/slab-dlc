@@ -61,7 +61,7 @@ import { humanTurnMintAllowed, personGitNameField } from "./aidlc-git-name.ts";
 export { humanTurnMintAllowed } from "./aidlc-git-name.ts";
 import { gitCommonDirOf, hasRealGitEntry, submoduleLeavesProjectRepo } from "./aidlc-git.ts";
 export { hasRealGitEntry } from "./aidlc-git.ts";
-import { NEXT_VALUELESS_FLAGS, nextFlagTakesFollowing, unitCommandArgv } from "./aidlc-command.ts";
+import { displayLanguageTools, NEXT_VALUELESS_FLAGS, nextFlagTakesFollowing, unitCommandArgv } from "./aidlc-command.ts";
 import { pluginCommandOnLine, projectPluginCommands } from "./aidlc-plugin-commands.ts";
 import {
   type EngineInvocation,
@@ -555,7 +555,6 @@ export {
 // runtime require() below avoids the circular import (aidlc-graph.ts
 // imports loadScopeMapping/loadStageGraph from this file). Type-only
 // imports are erased at runtime so they don't create the cycle.
-import { inDisplayLanguage } from "./aidlc-display-language.ts";
 import { claudeSettingsHookTargets, readRootIntegrations, withoutBom } from "./aidlc-distribution.ts";
 import type { subgraphForScope as SubgraphForScope } from "./aidlc-graph.ts";
 import type * as SwarmCheckpoints from "./aidlc-swarm-checkpoints.ts";
@@ -41259,7 +41258,7 @@ export function guardStandAsideSpeaks(gate: { policy: GuardPolicy }): boolean {
  */
 export function writeGuardStoodAside(line: string): void {
   process.stdout.write(
-    `${runtimeHarnessName() === "claude" ? JSON.stringify({ systemMessage: inDisplayLanguage(line) }) : line}\n`,
+    `${runtimeHarnessName() === "claude" ? JSON.stringify({ systemMessage: displayLanguageTools()?.inDisplayLanguage(line) ?? line }) : line}\n`,
   );
 }
 
