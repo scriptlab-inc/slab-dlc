@@ -1,7 +1,4 @@
-// Japanese wording for headings and short pieces the commands fill into their longer lines.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_HEADINGS: Readonly<Record<string, string>> = {
+{
   "{0} config models --show": "{0} config models --show",
   "Kiro CLI (V2)": "Kiro CLI (V2)",
   "{0} config set <key> <value>": "{0} config set <key> <value>",
@@ -147,5 +144,5 @@ export const DISPLAY_JA_HEADINGS: Readonly<Record<string, string>> = {
   "{0} returned HTTP {1}": "{0} が HTTP {1} を返しました",
   "{0}: invalid JSON ({1})": "{0}: JSON が正しくありません ({1})",
   "top-level name": "最上位の名前",
-  "relative path": "相対パス",
-};
+  "relative path": "相対パス"
+}

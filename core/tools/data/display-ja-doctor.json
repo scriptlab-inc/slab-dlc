@@ -1,7 +1,4 @@
-// Japanese wording for `aidlc doctor`, the config checks, machine settings and the status line choice.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_DOCTOR: Readonly<Record<string, string>> = {
+{
   "model access comes with your {0} session": "モデルへのアクセスは {0} のセッションに含まれます",
   "Model access comes with {0}; AI-DLC configures no model provider for it.": "モデルへのアクセスは {0} に含まれます。AI-DLC はモデルのプロバイダーを設定しません。",
   "write the AWS region and profile to settings.local.json, just for you": "AWS のリージョンとプロファイルを、あなただけの設定として settings.local.json に書き込みます",
@@ -508,5 +505,5 @@ export const DISPLAY_JA_DOCTOR: Readonly<Record<string, string>> = {
   "next patch base must be a stable x.y.z version, got \"{0}\"": "次のパッチの元のバージョンは、安定版の x.y.z にしてください。指定された値は \"{0}\" です",
   "cannot increment patch version \"{0}\" safely": "パッチのバージョン \"{0}\" を安全に1つ上げられません",
   "{0} must be unset, {1}, or a next-patch {2} id; got \"{3}\"": "{0} は、未設定、{1}、次のパッチの {2} の ID のいずれかにしてください。指定された値は \"{3}\" です",
-  "{0} \"{1}\" does not use next patch {2} after source version {3}": "{0} \"{1}\" は、ソースのバージョン {3} の次のパッチ {2} を使っていません",
-};
+  "{0} \"{1}\" does not use next patch {2} after source version {3}": "{0} \"{1}\" は、ソースのバージョン {3} の次のパッチ {2} を使っていません"
+}

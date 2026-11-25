@@ -7,8 +7,24 @@ import {
   fixLabel,
   heading,
 } from "./aidlc-color.ts";
-import { adoptDisplayLanguage } from "./aidlc-display-language.ts";
 import { aidlcInvocation } from "./aidlc-runtime-paths.ts";
+
+type DisplayLanguageTools = typeof import("./aidlc-display-language.ts");
+let displayLanguageToolsLoaded: DisplayLanguageTools | null | undefined;
+
+// The display language is read through here, never by a static import. A tree
+// that carries a few of the tools without aidlc-display-language.ts (a hook
+// copied with the files it names) still runs, and shows its lines as written.
+export function displayLanguageTools(): DisplayLanguageTools | null {
+  if (displayLanguageToolsLoaded === undefined) {
+    try {
+      displayLanguageToolsLoaded = require("./aidlc-display-language.ts") as DisplayLanguageTools;
+    } catch {
+      displayLanguageToolsLoaded = null;
+    }
+  }
+  return displayLanguageToolsLoaded;
+}
 
 export const ROUTE_NAMESPACE_DECLARATIONS = {
   public: { trustedPrefix: false },
@@ -686,7 +702,7 @@ export type GlobalOptions = {
 
 export function globalOptions(argv: readonly string[]): GlobalOptions {
   configureColor(argv);
-  if (!argv.includes("--json") && !argv.includes("--quiet")) adoptDisplayLanguage();
+  if (!argv.includes("--json") && !argv.includes("--quiet")) displayLanguageTools()?.adoptDisplayLanguage();
   return {
     mode: argv.includes("--json") ? "json" : argv.includes("--quiet") ? "quiet" : "human",
     color: colorEnabled(process.stdout),

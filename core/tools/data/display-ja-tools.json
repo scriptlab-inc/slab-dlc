@@ -1,7 +1,4 @@
-// Japanese wording for the smaller tools the commands call: plugins, model settings, uninstall on Windows, Kiro, transactions.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_TOOLS: Readonly<Record<string, string>> = {
+{
   "{0} that git tracks": "git が追跡しているもの {0} 件",
   "{0} not ignored": "無視されていないもの {0} 件",
   "{0} taken out of git, not committed yet": "git から外したがまだコミットしていないもの {0} 件",
@@ -789,5 +786,5 @@ export const DISPLAY_JA_TOOLS: Readonly<Record<string, string>> = {
   "{0}: settings.ca-bundle must be an absolute path": "{0}: settings.ca-bundle は絶対パスである必要があります",
   "{0}: settings path is not a regular file": "{0}: 設定のパスが通常のファイルではありません",
   "<resolved aidlc settings>": "<resolved aidlc settings>",
-  "AI-DLC settings": "AI-DLC settings",
-};
+  "AI-DLC settings": "AI-DLC settings"
+}

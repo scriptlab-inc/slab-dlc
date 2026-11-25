@@ -1,7 +1,4 @@
-// Japanese wording for the engine's plan approval, testing, guard and question tools.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_ENGINE_PLAN: Readonly<Record<string, string>> = {
+{
   "--stages must start with the target \"{0}\"": "--stages は、対象の \"{0}\" から始めてください",
   "Redid {0} for unit {1} (redo on re-entry).": "Redid {0} for unit {1} (redo on re-entry).",
   "Reopened {0} for unit {1} for a change.": "Reopened {0} for unit {1} for a change.",
@@ -697,5 +694,5 @@ export const DISPLAY_JA_ENGINE_PLAN: Readonly<Record<string, string>> = {
   "a claimed Unit lands only construction/{0}/ and its own audit shard, and a shared record (an Inception artifact such as contract-summary.md, or a stage-level file) is changed on main. {1} (git rm a file main does not have, or git checkout {2} -- <path> for one it does), commit, and publish again.": "確保したユニットが取り込めるのは、construction/{0}/ と自分の監査記録のファイルだけです。共有の記録 (contract-summary.md などの Inception の成果物や、ステージ単位のファイル) は main で変更します。{1} (main に無いファイルは git rm、main にあるファイルは git checkout {2} -- <path>)、コミットして、もう一度 publish してください。",
   "{0} (inherited audit shard)": "{0} (引き継いだ監査記録のファイル)",
   "{0} (invalid active-intent audit shard path)": "{0} (有効なインテントの監査記録のファイルのパスとして正しくありません)",
-  "{0}/ (expected exactly one newly added team audit shard; found {1})": "{0}/ (新しく追加されたチームの監査記録のファイルは、ちょうど1つのはずですが、{1} 個見つかりました)",
-};
+  "{0}/ (expected exactly one newly added team audit shard; found {1})": "{0}/ (新しく追加されたチームの監査記録のファイルは、ちょうど1つのはずですが、{1} 個見つかりました)"
+}

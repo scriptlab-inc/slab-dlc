@@ -8,8 +8,12 @@
 // The agent's own prose follows the conversation language (org.md); this
 // setting is about the lines the tools print themselves.
 
-export const DISPLAY_LANGUAGES = ["en", "ja"] as const;
-export type DisplayLanguage = (typeof DISPLAY_LANGUAGES)[number];
+import {
+  DEFAULT_DISPLAY_LANGUAGE,
+  type DisplayLanguage,
+  isDisplayLanguage,
+  resolveAidlcSettings,
+} from "./aidlc-settings.ts";
 
 // The dispatcher's process id, handed to the tool it starts. A tool adopts the
 // language only when its parent is that dispatcher, so a tool that a command
@@ -44,12 +48,6 @@ let language: DisplayLanguage | null = null;
 let catalogue: Catalogue | null = null;
 let showing = false;
 
-export function isDisplayLanguage(value: unknown): value is DisplayLanguage {
-  return (DISPLAY_LANGUAGES as readonly unknown[]).includes(value);
-}
-
-// The language shown where nothing records one.
-export const DEFAULT_DISPLAY_LANGUAGE: DisplayLanguage = "ja";
 
 // Chooses the language for one run, over what the settings record.
 export const DISPLAY_LANGUAGE_ENV = "AIDLC_DISPLAY_LANGUAGE";
@@ -77,7 +75,6 @@ export function displayLanguage(): DisplayLanguage {
   language = displayLanguageFromEnvironment() ?? DEFAULT_DISPLAY_LANGUAGE;
   if (displayLanguageFromEnvironment() !== null) return language;
   try {
-    const { resolveAidlcSettings } = require("./aidlc-settings.ts") as typeof import("./aidlc-settings.ts");
     const projectDir = process.env.AIDLC_PROJECT_DIR || process.env.AIDLC_RUNTIME_PROJECT_DIR || process.cwd();
     const recorded = resolveAidlcSettings(projectDir).flags?.displayLanguage;
     if (isDisplayLanguage(recorded)) language = recorded;

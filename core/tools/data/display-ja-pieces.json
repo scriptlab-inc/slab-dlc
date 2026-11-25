@@ -1,7 +1,4 @@
-// Japanese wording for short lines that are mostly filled-in values.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_PIECES: Readonly<Record<string, string>> = {
+{
   "aidlc: {0} for {1} noun '{2}'; try '{3} {4} --help'": "aidlc: {1} の対象 '{2}': {0}。'{3} {4} --help' を試してください",
   "aidlc {0} (runtime {1})": "aidlc {0} (runtime {1})",
   "unexpected {0} positional {1}": "{0} で想定していない位置引数 {1}",
@@ -57,5 +54,5 @@ export const DISPLAY_JA_PIECES: Readonly<Record<string, string>> = {
   "the {0} review": "{0} のレビュー",
   "The {0} Unit's": "{0} ユニットの",
   "its {0} Units": "その {0} 個のユニット",
-  "{0} (and {1} more)": "{0} (ほか {1} 件)",
-};
+  "{0} (and {1} more)": "{0} (ほか {1} 件)"
+}

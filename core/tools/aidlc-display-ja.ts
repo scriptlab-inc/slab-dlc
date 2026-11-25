@@ -5,21 +5,25 @@
 // to its key says the line is kept as written: a command form, a line written
 // into a file, or a word other code matches.
 // `bun scripts/display-language-catalogue.ts --missing` lists the lines with no entry.
+//
+// The entries are data files, not modules: an English line that names a
+// command is a key here, and the checks that keep hand-written commands out of
+// the tools' own strings read every module under tools/.
 
-import { DISPLAY_JA_CONFIG } from "./aidlc-display-ja-config.ts";
-import { DISPLAY_JA_DISPATCHER } from "./aidlc-display-ja-dispatcher.ts";
-import { DISPLAY_JA_DOCTOR } from "./aidlc-display-ja-doctor.ts";
-import { DISPLAY_JA_ENGINE_PLAN } from "./aidlc-display-ja-engine-plan.ts";
-import { DISPLAY_JA_ENGINE_STATE } from "./aidlc-display-ja-engine-state.ts";
-import { DISPLAY_JA_ENGINE_STEPS } from "./aidlc-display-ja-engine-steps.ts";
-import { DISPLAY_JA_ENGINE_UNITS } from "./aidlc-display-ja-engine-units.ts";
-import { DISPLAY_JA_HARNESS } from "./aidlc-display-ja-harness.ts";
-import { DISPLAY_JA_HEADINGS } from "./aidlc-display-ja-headings.ts";
-import { DISPLAY_JA_LIFECYCLE } from "./aidlc-display-ja-lifecycle.ts";
-import { DISPLAY_JA_PIECES } from "./aidlc-display-ja-pieces.ts";
-import { DISPLAY_JA_SHARED } from "./aidlc-display-ja-shared.ts";
-import { DISPLAY_JA_STATUS } from "./aidlc-display-ja-status.ts";
-import { DISPLAY_JA_TOOLS } from "./aidlc-display-ja-tools.ts";
+import DISPLAY_JA_CONFIG from "./data/display-ja-config.json";
+import DISPLAY_JA_DISPATCHER from "./data/display-ja-dispatcher.json";
+import DISPLAY_JA_DOCTOR from "./data/display-ja-doctor.json";
+import DISPLAY_JA_ENGINE_PLAN from "./data/display-ja-engine-plan.json";
+import DISPLAY_JA_ENGINE_STATE from "./data/display-ja-engine-state.json";
+import DISPLAY_JA_ENGINE_STEPS from "./data/display-ja-engine-steps.json";
+import DISPLAY_JA_ENGINE_UNITS from "./data/display-ja-engine-units.json";
+import DISPLAY_JA_HARNESS from "./data/display-ja-harness.json";
+import DISPLAY_JA_HEADINGS from "./data/display-ja-headings.json";
+import DISPLAY_JA_LIFECYCLE from "./data/display-ja-lifecycle.json";
+import DISPLAY_JA_PIECES from "./data/display-ja-pieces.json";
+import DISPLAY_JA_SHARED from "./data/display-ja-shared.json";
+import DISPLAY_JA_STATUS from "./data/display-ja-status.json";
+import DISPLAY_JA_TOOLS from "./data/display-ja-tools.json";
 
 // Labels every command puts before its lines, and the display language's own lines.
 const DISPLAY_JA_LABELS: Readonly<Record<string, string>> = {

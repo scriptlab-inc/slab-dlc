@@ -1,7 +1,4 @@
-// Japanese wording for `aidlc update`, `use`, `rollback`, `uninstall`, `versions` and release download.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_LIFECYCLE: Readonly<Record<string, string>> = {
+{
   "versions prune": "versions prune",
   "use requires the version before options": "use では、オプションより前にバージョンを指定してください",
   "--check cannot be combined with {0}": "--check は {0} と一緒に使えません",
@@ -252,5 +249,5 @@ export const DISPLAY_JA_LIFECYCLE: Readonly<Record<string, string>> = {
   "{0} failed its checksum; nothing was changed": "{0} のチェックサムが一致しませんでした。何も変更していません",
   "{0} failed its release attestation; nothing was changed ({1})": "{0} のリリースの証明を確認できませんでした。何も変更していません ({1})",
   "{0} from the configured release mirror": "設定済みのリリースミラーにある {0}",
-  "the configured release mirror": "設定済みのリリースミラー",
-};
+  "the configured release mirror": "設定済みのリリースミラー"
+}

@@ -4,7 +4,6 @@ import {
   type Stats,
 } from "node:fs";
 import { isAbsolute, join } from "node:path";
-import { DISPLAY_LANGUAGES, type DisplayLanguage, isDisplayLanguage } from "./aidlc-display-language.ts";
 import { installRoot } from "./aidlc-install-paths.ts";
 import type {
   ModelAgentPolicy,
@@ -91,6 +90,16 @@ export function settingPurpose(label: string): string {
   return purpose === undefined ? "" : ` (${purpose})`;
 }
 
+// The languages AI-DLC's own lines can be shown in (aidlc-display-language.ts),
+// and the one shown where nothing records a choice.
+export const DISPLAY_LANGUAGES = ["en", "ja"] as const;
+export type DisplayLanguage = (typeof DISPLAY_LANGUAGES)[number];
+export const DEFAULT_DISPLAY_LANGUAGE: DisplayLanguage = "ja";
+
+export function isDisplayLanguage(value: unknown): value is DisplayLanguage {
+  return (DISPLAY_LANGUAGES as readonly unknown[]).includes(value);
+}
+
 export type ProjectFlagsRecord = {
   schemaVersion: 1;
   defaultScope?: string;
@@ -99,7 +108,7 @@ export type ProjectFlagsRecord = {
   sensorTimeoutMs?: number;
   questionRetentionDays?: number;
   // The language of the lines AI-DLC prints for the person at a terminal
-  // (aidlc-display-language.ts). Unset is its DEFAULT_DISPLAY_LANGUAGE.
+  // (aidlc-display-language.ts). Unset is DEFAULT_DISPLAY_LANGUAGE.
   displayLanguage?: DisplayLanguage;
   bypasses?: RecordableProjectBypass[];
   // AI-DLC's status line (Claude Code and Codex, #1407), kept only in this

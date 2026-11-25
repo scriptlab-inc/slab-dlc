@@ -1,7 +1,4 @@
-// Japanese wording for each harness's own lines, which doctor and config show from harness.json.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_HARNESS: Readonly<Record<string, string>> = {
+{
   "bun \"$CLAUDE_PROJECT_DIR/.claude/tools/aidlc.ts\" engine statusline": "bun \"$CLAUDE_PROJECT_DIR/.claude/tools/aidlc.ts\" engine statusline",
   "open Claude Code in this project (if it is already open in this folder, exit it and start it again) and run `/aidlc --doctor`": "このプロジェクトで Claude Code を開き (このフォルダーですでに開いている場合は、終了してもう一度起動します)、`/aidlc --doctor` を実行します",
   "Set \"disableAllHooks\": false in this project's .claude/settings.local.json; it works in the same chat. If you started Claude Code with a setting that turns hooks off, start it again without that setting. If your organization's Claude Code settings block this project, ask your Claude Code administrator to allow project hooks. If AI-DLC was set up while Claude Code was open, exit Claude Code and start it again in this folder, then type <entry>.": "このプロジェクトの .claude/settings.local.json に \"disableAllHooks\": false を設定します。同じチャットのまま効きます。フックを止める設定を付けて Claude Code を起動した場合は、その設定を外して起動し直します。組織の Claude Code の設定がこのプロジェクトを止めている場合は、Claude Code の管理者に、プロジェクトのフックを許可するよう頼みます。Claude Code を開いている間に AI-DLC をセットアップした場合は、Claude Code を終了し、このフォルダーでもう一度起動してから、<entry> と入力します。",
@@ -72,5 +69,5 @@ export const DISPLAY_JA_HARNESS: Readonly<Record<string, string>> = {
   "Quit opencode and start it again with just `opencode` in <folder>, then type <entry> to carry on.": "opencode を終了し、<folder> で `opencode` だけを入力して起動し直します。そのあと <entry> と入力して続けます。",
   "This is expected before your first opencode chat in this folder. If you already started one, quit opencode and start it again with just `opencode` in <folder>, then run doctor again.": "このフォルダーで最初の opencode のチャットを始める前は、この状態で正常です。すでに始めている場合は、opencode を終了し、<folder> で `opencode` だけを入力して起動し直してから、もう一度 doctor を実行します。",
   "AI-DLC's opencode plugin is not loaded in this session. Do not retry and do not ask the person to answer again. Show the person this line and end your turn: \"Quit opencode and start it again with just `opencode` in <folder>, then type <entry> to carry on.\"": "AI-DLC の opencode プラグインが、このセッションで読み込まれていません。再試行せず、利用者にもう一度答えてもらう依頼もしないでください。利用者に次の行を見せて、ターンを終えてください: \"opencode を終了し、<folder> で `opencode` だけを入力して起動し直してください。そのあと <entry> と入力して続けてください。\"",
-  "start a new session, then type <entry>": "新しいセッションを始め、<entry> と入力します",
-};
+  "start a new session, then type <entry>": "新しいセッションを始め、<entry> と入力します"
+}

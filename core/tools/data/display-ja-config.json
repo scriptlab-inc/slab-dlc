@@ -1,7 +1,4 @@
-// Japanese wording for `aidlc config` and the first setup of a project.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_CONFIG: Readonly<Record<string, string>> = {
+{
   "multi-harness config is not supported yet; pass one --harness <name>": "複数のハーネスをまとめて設定することは、まだできません。--harness <name> を1つ指定してください",
   "one models mutation may target only one --agent": "モデルの設定の変更1回で指定できる --agent は1つだけです",
   "--download and --from are mutually exclusive": "--download と --from は同時に指定できません",
@@ -753,5 +750,5 @@ export const DISPLAY_JA_CONFIG: Readonly<Record<string, string>> = {
   "{0} holds {1} AI-DLC harness folders, and config needs the one for this project": "{0} に AI-DLC のハーネスのフォルダーが {1} 個あります。config には、このプロジェクト用の1つが必要です",
   "update AI-DLC to the release that wrote this baseline, then run the switch again": "このベースラインを書いたリリースに AI-DLC をアップデートしてから、もう一度切り替えを実行してください",
   "pass --from the release files: aidlc-copy-runtime-X.Y.Z.tar.gz, the runtime/ folder inside it, or one harness folder such as runtime/{0}/; or fetch them with {1}": "--from にリリースファイルを指定してください: aidlc-copy-runtime-X.Y.Z.tar.gz、その中の runtime/ フォルダー、または runtime/{0}/ のようなハーネスのフォルダー1つ。または {1} で取得してください",
-  "re-copy the complete runtime/{0}/ root from aidlc-copy-runtime-X.Y.Z.tar.gz (or a checkout's dist/{1}/ tree) over the project, or install the native aidlc command": "aidlc-copy-runtime-X.Y.Z.tar.gz の runtime/{0}/ 全体（またはチェックアウトの dist/{1}/ ツリー）をプロジェクトにコピーし直すか、ネイティブの aidlc コマンドをインストールしてください",
-};
+  "re-copy the complete runtime/{0}/ root from aidlc-copy-runtime-X.Y.Z.tar.gz (or a checkout's dist/{1}/ tree) over the project, or install the native aidlc command": "aidlc-copy-runtime-X.Y.Z.tar.gz の runtime/{0}/ 全体（またはチェックアウトの dist/{1}/ ツリー）をプロジェクトにコピーし直すか、ネイティブの aidlc コマンドをインストールしてください"
+}

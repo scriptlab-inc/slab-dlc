@@ -1,7 +1,4 @@
-// Japanese wording for the dispatcher: help, usage and the refusals `aidlc` itself gives.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_DISPATCHER: Readonly<Record<string, string>> = {
+{
   "unit claim": "unit claim",
   "unit release": "unit release",
   "config set": "config set",
@@ -224,5 +221,5 @@ export const DISPLAY_JA_DISPATCHER: Readonly<Record<string, string>> = {
   "unit status": "unit status",
   "`{0} engine plugin {1}` is not a plugin command; the plugin commands are select, list, sync, validate and build": "`{0} engine plugin {1}` はプラグインのコマンドではありません。プラグインのコマンドは select、list、sync、validate、build です",
   "Human presence cannot be switched off: it is how AIDLC knows an approval or an answer came from a real person, so reply in the chat yourself. For a supervised session where nobody can reply, launch the CLI with AIDLC_SKIP_HUMAN_PRESENCE_GUARD=1 set.": "人がいることの確認はオフにできません。AIDLC は、この確認で承認や回答が実際の人から来たと判断します。そのため、チャットにはご自身で返信してください。誰も返信できない監視付きのセッションでは、AIDLC_SKIP_HUMAN_PRESENCE_GUARD=1 を設定して CLI を起動してください。",
-  "{0} rerun with --help for valid usage": "{0} 正しい使い方は、--help を付けてもう一度実行すると確認できます",
-};
+  "{0} rerun with --help for valid usage": "{0} 正しい使い方は、--help を付けてもう一度実行すると確認できます"
+}

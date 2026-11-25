@@ -1,7 +1,4 @@
-// Japanese wording for the utility commands: status, help, doctor's project checks and the settings of one piece of work.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_STATUS: Readonly<Record<string, string>> = {
+{
   "--{0} is the retired name of --{1}; pass one of them, not both.": "--{0} は --{1} の古い名前です。両方ではなく、どちらか一方を指定してください。",
   "{0} does not accept --{1}.": "{0} は --{1} を受け付けません。",
   "{0} --{1} takes no value.": "{0} --{1} は値を取りません。",
@@ -1144,5 +1141,5 @@ export const DISPLAY_JA_STATUS: Readonly<Record<string, string>> = {
   "`intent-birth` was renamed to `intent-create`. Run the same command with `intent-create` instead (flags are unchanged).": "`intent-birth` は `intent-create` に名前が変わりました。同じコマンドを `intent-create` に替えて実行してください (フラグは変わっていません)。",
   "Unknown command \"{0}\". Run `aidlc-utility help` for what this tool can do.": "不明なコマンドです: \"{0}\"。この道具でできることは `aidlc-utility help` で確かめられます。",
   "Available commands: {0}": "使えるコマンド: {0}",
-  "Common options: [--project-dir <path>] [--scope <scope>] [--json]": "共通のオプション: [--project-dir <path>] [--scope <scope>] [--json]",
-};
+  "Common options: [--project-dir <path>] [--scope <scope>] [--json]": "共通のオプション: [--project-dir <path>] [--scope <scope>] [--json]"
+}

@@ -1,6 +1,5 @@
 import { DEFAULT_SUBPROCESS_TIMEOUT_MS, LONG_SUBPROCESS_TIMEOUT_MS } from "./aidlc-runtime-budget.ts";
 import { projectDirFlag, settleClaudeTurnsFirst } from "./aidlc-claude-turn-pending.ts";
-import { adoptDisplayLanguage } from "./aidlc-display-language.ts";
 import { hasStoredMessages, proveMessage, requestMessageStep, type StoredMessage } from "./aidlc-message-store.ts";
 import { createHash, randomUUID } from "node:crypto";
 import {
@@ -127,6 +126,7 @@ import {
 import { ACTIVE_MEMORY_DIR, activeMemoryCopyDrift, addRootBlocks, refreshActiveMemory } from "./aidlc-includes.ts";
 import {
   codexHookTrustHash,
+  displayLanguageTools,
   hookGroupMemberNames,
   PRE_TOOL_USE_GROUP_TARGET,
   HUMAN_PRESENCE_NO_SWITCH,
@@ -14297,7 +14297,7 @@ export async function main(argv: string[]): Promise<void> {
   errorArgs = [...rawArgs];
   const { positional, flags, bareFlags, blankFlags } = parseArgs(rawArgs);
   const subcommand = positional[0];
-  if (subcommand === "status" && !rawArgs.includes("--json")) adoptDisplayLanguage();
+  if (subcommand === "status" && !rawArgs.includes("--json")) displayLanguageTools()?.adoptDisplayLanguage();
   if (
     (subcommand === "intent-create" || subcommand === "init") &&
     (flags.help === "true" || rawArgs.includes("-h"))

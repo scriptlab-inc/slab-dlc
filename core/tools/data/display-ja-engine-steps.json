@@ -1,7 +1,4 @@
-// Japanese wording for the engine: the lines of a step the agent says to the person as written.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_ENGINE_STEPS: Readonly<Record<string, string>> = {
+{
   "{0} is ready for your review. Its output goes in {1}/, one folder per repository.": "{0} のレビューの準備ができました。出力は {1}/ に、リポジトリごとのフォルダーに分けて入ります。",
   "{0} is ready for your review. It produced the code knowledge base of {1}, {2} files each, in {3}/, one folder per repository.": "{0} のレビューの準備ができました。{1} のコードのナレッジベースを、それぞれ {2} ファイルずつ、{3}/ にリポジトリごとのフォルダーに分けて作りました。",
   "{0} is ready for your review. Its output goes in {1}/.": "{0} のレビューの準備ができました。出力は {1}/ に入ります。",
@@ -1161,5 +1158,5 @@ export const DISPLAY_JA_ENGINE_STEPS: Readonly<Record<string, string>> = {
   "{0}: lead_persona must be an object with string path and text": "{0}: lead_persona は、文字列の path と text を持つオブジェクトでなければなりません",
   "{0}: rules_held must be a sha256 bundle digest": "{0}: rules_held は、バンドルの sha256 ダイジェストでなければなりません",
   "{0}: rules_held and rules_content cannot both be present": "{0}: rules_held と rules_content は、両方同時には指定できません",
-  "{0}: rules_held_note must be a non-empty string": "{0}: rules_held_note は、空でない文字列でなければなりません",
-};
+  "{0}: rules_held_note must be a non-empty string": "{0}: rules_held_note は、空でない文字列でなければなりません"
+}

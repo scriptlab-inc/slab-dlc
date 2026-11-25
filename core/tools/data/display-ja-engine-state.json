@@ -1,7 +1,4 @@
-// Japanese wording for the engine's state, log and jump tools.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_ENGINE_STATE: Readonly<Record<string, string>> = {
+{
   "{0}: rules_held_note goes only beside rules_held": "{0}: rules_held_note は、rules_held と一緒のときだけ指定できます",
   "{0}: unit_gate requires unit": "{0}: unit_gate には unit が必要です",
   "{0}: construction_policy requires a Construction policy object": "{0}: construction_policy には、Construction の方針のオブジェクトが必要です",
@@ -929,5 +926,5 @@ export const DISPLAY_JA_ENGINE_STATE: Readonly<Record<string, string>> = {
   "Once you approve the code's documentation, we're back at {0}.": "コードの説明の文書を承認すると、{0} に戻ります。",
   "where we were": "元の場所",
   "Usage: reopen --target <slug> [--stages <slug[,slug...]>] --units <unit[,unit...]> [--via redo|change] [--scope <scope>]": "使い方: reopen --target <slug> [--stages <slug[,slug...]>] --units <unit[,unit...]> [--via redo|change] [--scope <scope>]",
-  "Not a per-unit stage: {0}": "ユニットごとに進めるステージではありません: {0}",
-};
+  "Not a per-unit stage: {0}": "ユニットごとに進めるステージではありません: {0}"
+}

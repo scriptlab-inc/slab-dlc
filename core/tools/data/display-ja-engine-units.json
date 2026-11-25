@@ -1,7 +1,4 @@
-// Japanese wording for the engine's Unit, worktree and swarm tools.
-// Part of the catalogue aidlc-display-ja.ts puts together; the rules for an entry are there.
-
-export const DISPLAY_JA_ENGINE_UNITS: Readonly<Record<string, string>> = {
+{
   "{0}/ (expected claim-bound audit shard {1})": "{0}/ (確保に結び付いた監査記録のファイル {1} だけのはずです)",
   "Cannot inspect pinned candidate diff": "固定した候補の差分を調べられません",
   "Cannot resolve the active intent record for candidate evidence.": "候補の証跡に使う、有効なインテントの記録を特定できません。",
@@ -925,5 +922,5 @@ export const DISPLAY_JA_ENGINE_UNITS: Readonly<Record<string, string>> = {
   "the ending turn was conversational (human's last prompt answered with no workflow-engine call); allowing the stop (conversational carve-out)": "the ending turn was conversational (human's last prompt answered with no workflow-engine call); allowing the stop (conversational carve-out)",
   "an attended run with nothing on record waiting on the person; allowing the stop (attended-run carve-out)": "an attended run with nothing on record waiting on the person; allowing the stop (attended-run carve-out)",
   "active-directive lock contended while updating Copilot Stop count; allowing stop": "Copilot の Stop の回数を更新する間、進行中の指示のロックを取れなかったため、停止を許可します",
-  "recursion guard released the stop (no-progress block cap {0} reached; stop_hook_active={1})": "recursion guard released the stop (no-progress block cap {0} reached; stop_hook_active={1})",
-};
+  "recursion guard released the stop (no-progress block cap {0} reached; stop_hook_active={1})": "recursion guard released the stop (no-progress block cap {0} reached; stop_hook_active={1})"
+}
